@@ -1,16 +1,12 @@
 These are scripts for taking data using this RPi. Usage is pretty straightforward.
+Usage is:
 
-take_data.py will record the value of GPIO 4. By default, it will just print timestamps and sample values to stdout. You can redirect these to a text file if you want to save the data to disk:
+bash runme.sh $GPIOPIN
 
-python take_data.py > output.txt
+This script will monitor the GPIO pin specificed by $GPIOPIN (an integer). Note that this number is the *board* bin number, not the GPIO number (see here: https://pinout.xyz/pinout/pin29_gpio5/, the numbers you should be using are the little ones ranging from 1-40. For example, if you want to monitor GPIO 17, you should run "bash runme.sh 11").
 
-There isn't currently a graceful way to exist this script, so you'll just have to manually kill it with ctrl+c.
+You can monitor two inputs by starting up two instances of this script (ideally in different terminal windows, since currently the only way to exit is with a keyboard interrupt). 
 
-You should also manually remove an old output file, if you plan on overwriting it.
+This script will write an output numpy file to the evtfiles directory (you can change this if needed in take_data.py). Files are named by RPi pin number,start time, and stop time. Files are written every 15 minutes, or immediately upon keyboard interrupt with ctrl+c. Files contain a list of timestamps corresponding to when the GPIO pin input changed from 0 to 1. 
 
-This is currently writing samples every ~1e-5 seconds, so this text file will get very large if you run for more than 30 seconds or so. 
-
-I've also included a script to calculate the rate from the txt file generated above, just point it to the txt file you'd like to use:
-
-python calc_rate.py output.txt 
-
+If this doesn't work, you can try using the monitor-gpio script in the "old" directory, which should do something very similar but instead uses a C callback function approach. This is the script that I originally had working at OSU, but seemed to produce too high of a rate when I visited Wisconsin

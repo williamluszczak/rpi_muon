@@ -1,0 +1,37 @@
+This is the script to monitor a GPIO pin of your choice for voltage changes. Usage is:
+
+./monitor-gpio $controller $offset
+
+The $controller and $offset numbers can be obtained by running the gpioinfo command. When running gpioinfo, you should get output that looks something like this:
+
+gpiochip0 - 54 lines:
+	line   0:     "ID_SDA"       unused   input  active-high 
+	line   1:     "ID_SCL"       unused   input  active-high 
+	line   2:      "GPIO2"       unused   input  active-high 
+	line   3:      "GPIO3"       unused   input  active-high 
+	line   4:      "GPIO4"       unused   input  active-high 
+	line   5:      "GPIO5"       unused   input  active-high 
+	line   6:      "GPIO6"       unused   input  active-high 
+	line   7:      "GPIO7"   "spi0 CS1"  output   active-low [used]
+	line   8:      "GPIO8"   "spi0 CS0"  output   active-low [used]
+	line   9:      "GPIO9"       unused   input  active-high 
+	line  10:     "GPIO10"       unused   input  active-high 
+	line  11:     "GPIO11"       unused   input  active-high 
+	line  12:     "GPIO12"       unused   input  active-high 
+	line  13:     "GPIO13"       unused   input  active-high 
+	...
+gpiochip10 - 32 lines:
+	line   0:          "-"       unused   input  active-high 
+	line   1: "2712_BOOT_CS_N" "spi10 CS0" output active-low [used]
+	line   2: "2712_BOOT_MISO" unused input active-high 
+	line   3: "2712_BOOT_MOSI" unused input active-high 
+	line   4: "2712_BOOT_SCLK" unused input active-high 
+	...
+
+The controller is which "gpiochip(#)" group your desired output pin is listed under (in most cases, this will be 0). The offset is the line number. For example, if I hooked up input to GPIO4 and wanted to monitor that pin using monitor-gpio, I would call:
+
+./monitor-gpio 0 4
+
+By default this script will just print timestamps to stdout. If you want to store the output in a txt file, just redirect stdout:
+
+./monitor-gpio 0 4 > my_output.txt

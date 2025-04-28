@@ -1,0 +1,16 @@
+These are scripts for taking data using this RPi. Usage is pretty straightforward.
+
+take_data.py will record the value of GPIO 4. By default, it will just print timestamps and sample values to stdout. You can redirect these to a text file if you want to save the data to disk:
+
+python take_data.py > output.txt
+
+There isn't currently a graceful way to exist this script, so you'll just have to manually kill it with ctrl+c.
+
+You should also manually remove an old output file, if you plan on overwriting it.
+
+This is currently writing samples every ~1e-5 seconds, so this text file will get very large if you run for more than 30 seconds or so. 
+
+I've also included a script to calculate the rate from the txt file generated above, just point it to the txt file you'd like to use:
+
+python calc_rate.py output.txt 
+

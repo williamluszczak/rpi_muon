@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 import sys
 import numpy as np
